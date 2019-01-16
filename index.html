@@ -3,6 +3,16 @@
   <head>
     <title>Flowers Catalog</title>
     <link rel="stylesheet" href="style.css" />
+    <script>
+      const changeVisibility = function(id, status) {
+        let element = document.getElementById(id);
+        element.style.visibility = status;
+      };
+      const hideImage = function(id) {
+        changeVisibility(id, 'hidden');
+        setTimeout(changeVisibility.bind(null, id, 'visible'), 1000);
+      };
+    </script>
   </head>
   <body>
     <div class="title">Flowers Catalog</div>
@@ -14,7 +24,12 @@
           <li><a href="">Ageratum</a></li>
           <li><a href="">Guest book</a></li>
         </ul>
-        <img src="resources/animated-flower-image-0021.gif" alt="nothing" />
+        <img
+          id="waterCan"
+          onclick="hideImage('waterCan')"
+          src="resources/animated-flower-image-0021.gif"
+          alt="nothing"
+        />
       </div>
     </div>
   </body>
