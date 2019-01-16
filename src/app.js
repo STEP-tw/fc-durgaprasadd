@@ -1,15 +1,19 @@
 const { readFile } = require('fs');
-const app = (req, res) => {
-  res.statusCode = 200;
-  if (req.url == '/') {
-    readFile('./index.html', 'utf8', (err, data) => {
+
+const reader = function(path, res, req) {
+  readFile(path, (err, data) => {
+    if (err) {
+      res.statusCode = 404;
+      res.end();
+    } else {
       res.write(data);
       res.end();
-    });
-  }
-  if (req.url != '/') {
-    res.end();
-  }
+    }
+  });
+};
+const app = (req, res) => {
+  console.log(req.url);
+  reader(req.url.slice(1) || 'index.html', res);
 };
 
 // Export a function that can act as a handler
