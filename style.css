@@ -1,0 +1,18 @@
+.title {
+  border-bottom: 1px solid black;
+  color: orange;
+  font-size: 40px;
+  margin: 10px;
+  text-indent: 850px;
+}
+
+.list {
+  font-size: 30px;
+}
+.flex {
+  display: flex;
+}
+
+.middle {
+  margin: auto;
+}
