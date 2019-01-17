@@ -1,7 +1,8 @@
 const { readFile } = require('fs');
 
 const reader = function(path, res, req) {
-  readFile(path, (err, data) => {
+  let root = 'html_page/' + path;
+  readFile(root, (err, data) => {
     if (err) {
       res.statusCode = 404;
       res.end();
@@ -12,7 +13,6 @@ const reader = function(path, res, req) {
   });
 };
 const app = (req, res) => {
-  console.log(req.url);
   reader(req.url.slice(1) || 'index.html', res);
 };
 
