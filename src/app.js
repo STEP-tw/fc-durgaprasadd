@@ -18,8 +18,9 @@ const sendNotFound = function(req, res) {
 // Export a function that can act as a handler
 
 app.get('/', reader);
-app.get('/resources/animated-flower-image-0021.gif', reader);
-app.get('/resources/freshorigins.jpg', reader);
+app.get('/resources/water-can.gif', reader);
+app.get('/resources/flowers.jpg', reader);
 app.get('/style.css', reader);
+app.get('/favicon.ico', reader);
 app.use(sendNotFound);
 module.exports = app.handleRequest.bind(app);
