@@ -76,13 +76,16 @@ const updateGuestBookDetails = function(req, res) {
 
 app.use(readBody);
 app.get('/', reader);
+app.get('/style.css', reader);
 app.get('/resources/water-can.gif', reader);
 app.get('/resources/flowers.jpg', reader);
-app.get('/resources/abeliophyllum.jpg', reader);
 app.get('/resources/Abeliophyllum.pdf', reader);
-app.get('/style.css', reader);
+app.get('/resources/Ageratum.pdf', reader);
 app.get('/favicon.ico', reader);
 app.get('/abeliophyllum.html', reader);
+app.get('/ageratum.html', reader);
+app.get('/resources/abeliophyllum.jpg', reader);
+app.get('/resources/agerantum.jpg', reader);
 app.get('/guestBook.html', getGuestBookDetails);
 app.post('/guestBook.html', updateGuestBookDetails);
 app.use(sendNotFound);
