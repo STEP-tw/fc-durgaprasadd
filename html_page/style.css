@@ -16,3 +16,16 @@
 .middle {
   margin: auto;
 }
+
+thead {
+  font-size: 22px;
+}
+td {
+  width: 450px;
+  text-align: center;
+}
+
+input[type='submit'] {
+  -webkit-appearance: none;
+  font-size: 25px;
+}

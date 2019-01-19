@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Guest Book</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div style="text-align: center">
+      <h1 style="color:orange"><a href="/"><<</a> Guest Book</h1>
+    </div>
+    <form method="POST" style="border-bottom: 1px solid black">
+      <h1>Leave a comment</h1>
+      <h1>
+        Name:
+        <input
+          name="name"
+          style="height: 30px;width: 250px;font-size: 20px"
+          type="text"
+        />
+      </h1>
+      <h1>
+        Comment:
+        <textarea
+          style="font-size:20px"
+          name="comment"
+          cols="50"
+          rows="5"
+        ></textarea>
+      </h1>
+      <input type="submit" value="Submit" />
+    </form>
+    <table class="table">
+      <thead>
+        <tr>
+          <td>Date&Time</td>
+          <td>Name</td>
+          <td>Comments-List</td>
+        </tr>
+      </thead>
+  </body>
+</html>
