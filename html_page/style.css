@@ -6,6 +6,12 @@
   text-indent: 850px;
 }
 
+.pageTitle {
+  border-bottom: 1px solid black;
+  color: orange;
+  text-align: center;
+}
+
 .list {
   font-size: 30px;
 }
@@ -31,4 +37,9 @@ input[type='submit'] {
 }
 p {
   font-size: 20px;
+}
+
+.image {
+  width: 700px;
+  height: 700px;
 }

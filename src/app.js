@@ -25,7 +25,7 @@ const readBody = function(req, res, next) {
     text += data;
   });
   req.on('end', () => {
-    req.body = text;
+    req.body = unescape(text);
     next();
   });
 };
