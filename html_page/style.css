@@ -35,10 +35,29 @@ input[type='submit'] {
   -webkit-appearance: none;
   font-size: 25px;
 }
+
+input[name='name'] {
+  height: 30px;
+  width: 250px;
+  font-size: 20px;
+}
+
+textarea {
+  font-size: 20px;
+}
+
 p {
   font-size: 20px;
 }
 
 .image {
   padding: 10px;
+}
+
+form {
+  border-bottom: 1px solid black;
+}
+
+button {
+  font-size: 30px;
 }

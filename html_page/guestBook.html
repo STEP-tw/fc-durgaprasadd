@@ -2,42 +2,30 @@
 <html>
   <head>
     <title>Guest Book</title>
-    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="style.css" />
     <script src="handlingComments.js"></script>
   </head>
   <body>
     <div style="text-align: center">
       <h1 style="color:orange"><a href="/"><<</a> Guest Book</h1>
     </div>
-    <form
-      onsubmit="submitComment(event)"
-      style="border-bottom: 1px solid black"
-    >
+    <form onsubmit="submitComment(event)">
       <h1>Leave a comment</h1>
-      <h1>
-        Name:
-        <input
-        id="_name"
-          name="name"
-          style="height: 30px;width: 250px;font-size: 20px"
-          type="text"
-          required
-        />
-      </h1>
+      <h1>Name: <input id="_name" name="name" type="text" required /></h1>
+
       <h1>
         Comment:
         <textarea
-        id="_comment"
-          style="font-size:20px"
+          id="_comment"
           name="comment"
           cols="50"
           rows="5"
           required
         ></textarea>
       </h1>
-      <input type="submit" value="Submit"/>
+      <input type="submit" value="Submit" />
     </form>
-    <h1>Comments <button name="refresh" onclick="refresh()" style="font-size:30px">&#x21bb</button></h1>
+    <h1>Comments <button name="refresh" onclick="refresh()">&#x21bb</button></h1>
     <table class="table" id="_table">
   </body>
 </html>
