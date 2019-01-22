@@ -16,11 +16,15 @@ const send = function(res, content, statusCode = 200) {
   res.end();
 };
 
-const reader = function(req, res) {
+const reader = function(req, res, next) {
   let path = req.url.slice(1) || 'index.html';
-  let root = 'html_page/' + path;
-  readFile(root, (err, data) => {
-    if (!err) send(res, data);
+  let root = 'html_page/';
+  readFile(root + path, (err, data) => {
+    if (err) {
+      next();
+      return;
+    }
+    send(res, data);
   });
 };
 
@@ -30,7 +34,7 @@ const readBody = function(req, res, next) {
     text += data;
   });
   req.on('end', () => {
-    req.body = unescape(text);
+    req.body = text;
     next();
   });
 };
@@ -40,12 +44,13 @@ const sendNotFound = function(req, res) {
   res.end();
 };
 
-const parseArgs = function(text) {
-  let commentDetails = {};
-  commentDetails['dateAndTime'] = new Date().toLocaleString();
-  let pairs = text.split('&').map(x => x.split('='));
-  pairs.forEach(([key, value]) => (commentDetails[key] = value));
-  return commentDetails;
+const getHtmlTable = function(body) {
+  return `<thead> <tr>
+      <td>Date&Time</td>
+      <td>Name</td>
+      <td>Comments-List</td>
+    </tr> </thead> <tbody> ${body}
+    </tbody> </table>`;
 };
 
 const convertToHtmlTable = function(comments) {
@@ -55,19 +60,8 @@ const convertToHtmlTable = function(comments) {
       .map(value => `<td>${value}</td>`)
       .join('')
   );
-  return (
-    ` <thead>
-    <tr>
-      <td>Date&Time</td>
-      <td>Name</td>
-      <td>Comments-List</td>
-    </tr>
-  </thead>` +
-    '<tbody>' +
-    rows.map(row => `<tr>${row}</tr>`).join('') +
-    '</tbody>' +
-    '</table>'
-  );
+  let tableBody = rows.map(row => `<tr>${row}</tr>`).join('');
+  return getHtmlTable(tableBody);
 };
 
 const getGuestBookDetails = function(req, res) {
@@ -80,11 +74,9 @@ const getGuestBookDetails = function(req, res) {
 };
 
 const updateGuestBookDetails = function(req, res) {
-  comment.addComments(parseArgs(req.body));
-  req.body = '';
-  console.log(req.body);
+  comment.addComments(JSON.parse(req.body));
   writeFile('./src/commentors_data.json', comment.inString(), () => {});
-  getGuestBookDetails(req, res);
+  refreshComments(req, res);
 };
 
 const refreshComments = function(req, res) {
