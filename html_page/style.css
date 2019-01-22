@@ -40,6 +40,5 @@ p {
 }
 
 .image {
-  width: 700px;
-  height: 700px;
+  padding: 10px;
 }

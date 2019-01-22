@@ -10,12 +10,17 @@ readFile('./src/commentors_data.json', (err, data) => {
   }
 });
 
+const send = function(res, content, statusCode = 200) {
+  res.write(content);
+  res.statusCode = statusCode;
+  res.end();
+};
+
 const reader = function(req, res) {
   let path = req.url.slice(1) || 'index.html';
   let root = 'html_page/' + path;
   readFile(root, (err, data) => {
-    res.write(data);
-    res.end();
+    if (!err) send(res, data);
   });
 };
 
@@ -29,17 +34,18 @@ const readBody = function(req, res, next) {
     next();
   });
 };
+
 const sendNotFound = function(req, res) {
   res.statusCode = 404;
   res.end();
 };
 
-const getArgs = function(text) {
-  let args = {};
-  args['dateAndTime'] = new Date().toLocaleString();
+const parseArgs = function(text) {
+  let commentDetails = {};
+  commentDetails['dateAndTime'] = new Date().toLocaleString();
   let pairs = text.split('&').map(x => x.split('='));
-  pairs.forEach(([key, value]) => (args[key] = value));
-  return args;
+  pairs.forEach(([key, value]) => (commentDetails[key] = value));
+  return commentDetails;
 };
 
 const convertToHtmlTable = function(comments) {
@@ -50,7 +56,17 @@ const convertToHtmlTable = function(comments) {
       .join('')
   );
   return (
-    '<tbody' + rows.map(row => `<tr>${row}</tr>`) + '</tbody>' + '</table>'
+    ` <thead>
+    <tr>
+      <td>Date&Time</td>
+      <td>Name</td>
+      <td>Comments-List</td>
+    </tr>
+  </thead>` +
+    '<tbody>' +
+    rows.map(row => `<tr>${row}</tr>`).join('') +
+    '</tbody>' +
+    '</table>'
   );
 };
 
@@ -58,35 +74,30 @@ const getGuestBookDetails = function(req, res) {
   readFile('./html_page/guestBook.html', (err, data) => {
     if (!err) {
       data = data + convertToHtmlTable(comment.getComments());
-      res.write(data);
-      res.end();
+      send(res, data);
     }
   });
 };
 
 const updateGuestBookDetails = function(req, res) {
-  comment.addComments(getArgs(req.body));
+  comment.addComments(parseArgs(req.body));
   req.body = '';
   console.log(req.body);
   writeFile('./src/commentors_data.json', comment.inString(), () => {});
   getGuestBookDetails(req, res);
 };
 
+const refreshComments = function(req, res) {
+  const data = convertToHtmlTable(comment.getComments());
+  send(res, data);
+};
+
 // Export a function that can act as a handler
 
 app.use(readBody);
-app.get('/', reader);
-app.get('/style.css', reader);
-app.get('/resources/water-can.gif', reader);
-app.get('/resources/flowers.jpg', reader);
-app.get('/resources/Abeliophyllum.pdf', reader);
-app.get('/resources/Ageratum.pdf', reader);
-app.get('/favicon.ico', reader);
-app.get('/abeliophyllum.html', reader);
-app.get('/ageratum.html', reader);
-app.get('/resources/abeliophyllum.jpg', reader);
-app.get('/resources/agerantum.jpg', reader);
+app.get('/comments', refreshComments);
 app.get('/guestBook.html', getGuestBookDetails);
 app.post('/guestBook.html', updateGuestBookDetails);
+app.use(reader);
 app.use(sendNotFound);
 module.exports = app.handleRequest.bind(app);

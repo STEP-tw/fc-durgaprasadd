@@ -3,6 +3,16 @@
   <head>
     <title>Guest Book</title>
     <link rel="stylesheet" href="style.css" />
+    <script>
+      const refresh = function(){
+        fetch('/comments').then(function(res){
+         return res.text();
+        }).then((data)=>{
+          console.log(data);
+          document.getElementById('_table').innerHTML = data
+        })
+      }
+    </script>
   </head>
   <body>
     <div style="text-align: center">
@@ -29,13 +39,8 @@
       </h1>
       <input type="submit" value="Submit" />
     </form>
-    <table class="table">
-      <thead>
-        <tr>
-          <td>Date&Time</td>
-          <td>Name</td>
-          <td>Comments-List</td>
-        </tr>
-      </thead>
+    <h1>Comments <button name="refresh" onclick="refresh()" style="font-size:30px">&#x21bb</button></h1>
+    <table class="table" id="_table">
+     
   </body>
 </html>
