@@ -3,36 +3,40 @@ const refresh = function() {
     .then(function(res) {
       return res.text();
     })
-    .then(data => {
-      document.getElementById('_table').innerHTML = data;
-    });
+    .then(data => updateComments(data));
 };
 
-const getBody = function() {
-  let dateAndTime = new Date().toLocaleString();
-  let name = document.getElementById('_name').value;
+const updateComments = function(data) {
+  document.getElementById('_table').innerHTML = data;
+};
+
+const getComment = function() {
   let comment = document.getElementById('_comment').value;
-  return { dateAndTime, name, comment };
+  return { comment };
 };
 
 const clearData = function() {
-  document.getElementById('_name').value = '';
   document.getElementById('_comment').value = '';
 };
+
 const fetchData = function() {
-  fetch('/guestBook.html', {
+  fetch('/comments', {
     method: 'POST',
-    body: JSON.stringify(getBody()),
+    body: JSON.stringify(getComment()),
     headers: {
       'Content-Type': 'text/html'
     }
   })
     .then(res => res.text())
     .then(data => {
-      document.getElementById('_table').innerHTML = data;
+      updateComments(data);
     });
 };
-
+const logout = function() {
+  fetch('/logout')
+    .then(res => res.text())
+    .then(data => (document.getElementById('log').innerHTML = data));
+};
 const submitComment = function(event) {
   event.preventDefault();
   fetchData();
