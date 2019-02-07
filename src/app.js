@@ -140,10 +140,10 @@ const getGuestBookDetails = function(req, res) {
     end;
   send(res, data);
 };
-// Export a function that can act as a handler
+
 const readCookies = function(req, res, next) {
   const cookie = req.headers['cookie'];
-  req.cookie = cookie;
+  req.cookie = cookie || `userName=`;
   console.log(req.cookie);
   next();
 };
